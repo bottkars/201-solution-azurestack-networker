@@ -51,7 +51,7 @@ EXTERNAL_HOSTNAME=$(get_setting EXTERNAL_HOSTNAME)
 
 
 WORKFLOW=NveConfig
-echo "waiting for AVAMAR $WORKFLOW  to be available"
+echo "waiting for Networker $WORKFLOW  to be available"
 ### get the SW Version
 until [[ ! -z $NVE_CONFIG ]]
 do
