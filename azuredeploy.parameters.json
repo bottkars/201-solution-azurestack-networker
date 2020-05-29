@@ -1,0 +1,48 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "authenticationType": {
+            "value": "password"
+        },
+        "nveCommonPassword": {
+            "value": "Change_Me12345_"
+        },
+        "nveImageURI": {
+            "value": "https://opsmanagerimage.blob.local.azurestack.external/images/AZURE-NVE-19.3.0.6.vhd"
+        },
+        "nveName": {
+            "value": "nveazs1"
+        },
+        "nveNetworkInterfaceType": {
+            "value": "Public"
+        },
+        "nvePasswordOrKey": {
+            "value": "Change_Me12345_"
+        },
+        "nveTimeZone": {
+            "value": "Europe/Berlin"
+        },
+        "nveUsername": {
+            "value": "nwuser"
+        },
+        "nveVhd": {
+            "value": "AZURE-NVE-19.3.0.6.vhd"
+        },
+        "diagnosticsStorageAccountExistingResourceGroup": {
+            "value": "registry"
+        },
+        "diagnosticsStorageAccountName": {
+            "value": "ckboxhxdal63isalinuxvm"
+        },
+        "vnetExistingResourceGroup": {
+            "value": "registry"
+        },
+        "vnetName": {
+            "value": "harborVNET"
+        },
+        "vnetSubnetName": {
+            "value": "Subnet1"
+        }
+    }
+}
