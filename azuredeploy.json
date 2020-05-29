@@ -801,7 +801,7 @@
                         "blobUri": "[parameters('nveImageURI')]",
                         "storageAccountType": "Standard_LRS",
                         "caching": "ReadWrite",
-                        "diskSizeGB": 127
+                        "diskSizeGB": 200
                     }
                 }
             }
