@@ -516,6 +516,9 @@
         "nveNicName": "[concat(parameters('nveName'), '-nic-0')]",
         "nveNsg": "[concat(parameters('nveName'), '-nsg')]",
         "nveOSDisk": "[concat(parameters('nveName'), '-osdisk')]",
+        "numNveDataDisks": 1,
+        "nveDataDisk": "[concat(parameters('nveName'), '-datadisk')]",
+        "nveDataDiskSize": 50,
         "nvePublicIP": {
             "id": "[resourceId('Microsoft.Network/publicIPAddresses',Concat(variables('nveNicName'),'-pip'))]"
         },
@@ -802,7 +805,23 @@
                         "storageAccountType": "Standard_LRS",
                         "caching": "ReadWrite",
                         "diskSizeGB": 200
-                    }
+                    },
+                    "copy": [
+                        {
+                            "name": "dataDisks",
+                            "count": "[variables('numNveDataDisks')]",
+                            "input": {
+                                "caching": "None",
+                                "diskSizeGB": "[variables('nveDataDiskSize')]",
+                                "lun": "[copyIndex('dataDisks')]",
+                                "name": "[concat(variables('nveDataDisk'), copyIndex('dataDisks'))]",
+                                "managedDisk": {
+                                    "storageAccountType": "Standard_LRS"
+                                },
+                                "createOption": "Empty"
+                            }
+                        }
+                    ]
                 }
             }
         },
