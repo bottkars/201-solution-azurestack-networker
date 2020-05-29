@@ -510,6 +510,7 @@
     },
     "variables": {
         "apiVersion": "2017-06-01",
+        "nvePassword": "changeme",
         "nveExternalHostname": "node",
         "nveIPAllocationMethod": "Static",
         "nveNicName": "[concat(parameters('nveName'), '-nic-0')]",
@@ -820,7 +821,7 @@
                         "value": {
                             "NVE_TIMEZONE": "[parameters('nveTimeZone')]",
                             "NVE_COMMON_PASSWORD": "[parameters('nveCommonPassword')]",
-                            "NVE_PASSWORD": "[reference(variables('nveNicName')).ipConfigurations[0].properties.privateIPAddress]",
+                            "NVE_PASSWORD": "[variables('nvePassword')]",
                             "NVE_EXTERNAL_FQDN": "[if(equals(parameters('nveNetworkInterfaceType'), 'public'), reference(variables('nvePublicIPName'),'2017-10-01').dnsSettings.fqdn,'')]",
                             "EXTERNAL_HOSTNAME": "[variables('nveExternalHostname')]"
                         }

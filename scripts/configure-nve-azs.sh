@@ -85,6 +85,7 @@ NVE_CONFIG=$(/opt/emc-tools/bin/avi-cli --user root --password "${NVE_PASSWORD}"
     --input add_datadomain_config=false \
     --input new_ddboost_user=false \
     --input snmp_string=public \
+    --input install_avpasswd=false \
     localhost
 # else
 
