@@ -51,12 +51,12 @@ EXTERNAL_HOSTNAME=$(get_setting EXTERNAL_HOSTNAME)
 
 
 WORKFLOW=NveConfig
-echo "waiting for AVAMAR $WORKFLOW  to be available"
+echo "waiting for NVE $WORKFLOW to be available"
 ### get the SW Version
 until [[ ! -z $NVE_CONFIG ]]
 do
 NVE_CONFIG=$(/opt/emc-tools/bin/avi-cli --user root --password "${NVE_PASSWORD}" \
- --listrepository ${NVE_PASSWORD} \
+ --listrepository localhost \
  | grep ${WORKFLOW} | awk  '{print $1}' )
 sleep 5
 printf "."
@@ -65,14 +65,14 @@ done
 
 echo "waiting for nve-config to become ready"
 until [[ $(/opt/emc-tools/bin/avi-cli --user root --password "${NVE_PASSWORD}" \
- --listhistory ${NVE_PASSWORD} | grep NveConfig | awk  '{print $5}') == "ready" ]]
+ --listhistory localhost | grep NveConfig | awk  '{print $5}') == "ready" ]]
 do
 printf "."
 sleep 5
 done
 echo "nve-config ready"
 NVE_CONFIG=$(/opt/emc-tools/bin/avi-cli --user root --password "${NVE_PASSWORD}" \
- --listhistory ${NVE_PASSWORD} | grep NveConfig | awk  '{print $1}')
+ --listhistory localhost | grep NveConfig | awk  '{print $1}')
 # will add dd later
 # if [[ -z  ${NVE_DD} ]]
 # then
@@ -85,7 +85,7 @@ NVE_CONFIG=$(/opt/emc-tools/bin/avi-cli --user root --password "${NVE_PASSWORD}"
     --input add_datadomain_config=false \
     --input new_ddboost_user=false \
     --input snmp_string=public \
-    ${NVE_PASSWORD}
+    localhost
 # else
 
 # fi
