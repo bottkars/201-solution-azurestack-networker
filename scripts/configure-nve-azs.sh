@@ -38,12 +38,11 @@ function get_setting() {
 }
 
 
-until [ -f /var/lib/waagent/CustomDataClear ]
+until [ -f /var/lib/waagent/CustomData ]
 do
      sleep 5
 done
-custom_data_file="/var/lib/waagent/CustomDataClear"
-settings=$(cat ${custom_data_file})
+settings=$(base64 -d /var/lib/waagent/CustomData)
 NVE_PASSWORD=$(get_setting NVE_PASSWORD)
 NVE_COMMON_PASSWORD=$(get_setting NVE_COMMON_PASSWORD)
 NVE_TIMEZONE=$(get_setting NVE_TIMEZONE)
@@ -64,42 +63,32 @@ printf "."
 done
 
 
-echo "waiting for ave-config to become ready"
+echo "waiting for nve-config to become ready"
 until [[ $(/opt/emc-tools/bin/avi-cli --user root --password "${NVE_PASSWORD}" \
- --listhistory ${NVE_PASSWORD} | grep nve-config | awk  '{print $5}') == "ready" ]]
+ --listhistory ${NVE_PASSWORD} | grep NveConfig | awk  '{print $5}') == "ready" ]]
 do
 printf "."
 sleep 5
 done
-echo "ave-config ready"
+echo "nve-config ready"
+NVE_CONFIG=$(/opt/emc-tools/bin/avi-cli --user root --password "${NVE_PASSWORD}" \
+ --listhistory ${NVE_PASSWORD} | grep NveConfig | awk  '{print $1}')
+# will add dd later
+# if [[ -z  ${NVE_DD} ]]
+# then
+/opt/emc-tools/bin/avi-cli --user root --password "${NVE_PASSWORD}" --install ${NVE_CONFIG//.avp}  \
+    --input timezone_name="${NVE_TIMEZONE}" \
+    --input root_password_os=${NVE_COMMON_PASSWORD} \
+    --input admin_password_os=${NVE_COMMON_PASSWORD} \
+    --input tomcat_keystore_password=${NVE_COMMON_PASSWORD} \
+    --input authc_admin_password=${NVE_COMMON_PASSWORD} \
+    --input add_datadomain_config=false \
+    --input new_ddboost_user=false \
+    --input snmp_string=public \
+    ${NVE_PASSWORD}
+# else
 
-if [[ -z  ${NVE_EXTERNAL_FQDN} ]]
-then
-/opt/emc-tools/bin/avi-cli --user root --password "${NVE_PASSWORD}" --install ave-config  \
-    --input timezone_name="${NVE_TIMEZONE}" \
-    --input common_password=${NVE_COMMON_PASSWORD} \
-    --input use_common_password=true \
-    --input repl_password=${NVE_COMMON_PASSWORD} \
-    --input rootpass=${NVE_COMMON_PASSWORD} \
-    --input mcpass=${NVE_COMMON_PASSWORD} \
-    --input viewuserpass=${NVE_COMMON_PASSWORD} \
-    --input admin_password_os=${NVE_COMMON_PASSWORD} \
-    --input root_password_os=${NVE_COMMON_PASSWORD} \
-    ${NVE_PASSWORD}
-else
-/opt/emc-tools/bin/avi-cli --user root --password "${NVE_PASSWORD}" --install ave-config  \
-    --input timezone_name="${NVE_TIMEZONE}" \
-    --input common_password=${NVE_COMMON_PASSWORD} \
-    --input use_common_password=true \
-    --input repl_password=${NVE_COMMON_PASSWORD} \
-    --input rootpass=${NVE_COMMON_PASSWORD} \
-    --input mcpass=${NVE_COMMON_PASSWORD} \
-    --input viewuserpass=${NVE_COMMON_PASSWORD} \
-    --input admin_password_os=${NVE_COMMON_PASSWORD} \
-    --input root_password_os=${NVE_COMMON_PASSWORD} \
-    --input rmi_address=${NVE_EXTERNAL_FQDN} \
-    ${NVE_PASSWORD}
-fi
+# fi
 
 
 echo "finished deployment"
