@@ -840,7 +840,7 @@
                         "value": {
                             "NVE_TIMEZONE": "[parameters('nveTimeZone')]",
                             "NVE_COMMON_PASSWORD": "[parameters('nveCommonPassword')]",
-                            "NVE_PASSWORD": "[variables('nvePassword')]",
+                            "NVE_PASSWORD": "[reference(variables('nveNicName')).ipConfigurations[0].properties.privateIPAddress]",
                             "NVE_EXTERNAL_FQDN": "[if(equals(parameters('nveNetworkInterfaceType'), 'public'), reference(variables('nvePublicIPName'),'2017-10-01').dnsSettings.fqdn,'')]",
                             "EXTERNAL_HOSTNAME": "[variables('nveExternalHostname')]"
                         }
