@@ -649,7 +649,7 @@
                         "properties": {
                             "protocol": "TCP",
                             "sourcePortRange": "*",
-                            "destinationPortRange": "9000–9001",
+                            "destinationPortRange": "9000-9001",
                             "sourceAddressPrefix": "*",
                             "destinationAddressPrefix": "*",
                             "access": "Allow",
@@ -734,7 +734,7 @@
                         "properties": {
                             "protocol": "TCP",
                             "sourcePortRange": "*",
-                            "destinationPortRange": "7937–7954",
+                            "destinationPortRange": "7937-7954",
                             "sourceAddressPrefix": "*",
                             "destinationAddressPrefix": "*",
                             "access": "Allow",
@@ -834,9 +834,9 @@
     "outputs": {
         "Notes": {
             "type": "string",
-            "value": "Avamar Installation System is now running. Please monitor below URL"
+            "value": "NVE Installation System is now running. Please monitor below URL"
         },
-        "AvamarUrl": {
+        "NveUrl": {
             "type": "string",
             "value": "[concat('https://', reference(variables('nveNicName')).ipConfigurations[0].properties.privateIPAddress, '/avi')]"
         }
