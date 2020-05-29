@@ -127,8 +127,8 @@
         "nveVersion": "[replace(parameters('nveVhd'),'.vhd', '')]",
         "nveVmSize": "Standard_DS3_v2",
         "filesToDownload": [
-            "https://raw.githubusercontent.com/bottkars/201-solution-azurestack-avamar/master/scripts/deploy_base.sh",
-            "https://raw.githubusercontent.com/bottkars/201-solution-azurestack-avamar/master/scripts/configure-nve-azs.sh"
+            "https://raw.githubusercontent.com/bottkars/201-solution-azurestack-networker/master/scripts/deploy_base.sh",
+            "https://raw.githubusercontent.com/bottkars/201-solution-azurestack-networker/master/scripts/configure-nve-azs.sh"
         ],
         "linuxConfiguration": {
             "disablePasswordAuthentication": true,
@@ -1012,7 +1012,7 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "https://raw.githubusercontent.com/bottkars/201-solution-azurestack-avamar/master/generate-customdata.json",
+                    "uri": "https://raw.githubusercontent.com/bottkars/201-solution-azurestack-networker/master/generate-customdata.json",
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
