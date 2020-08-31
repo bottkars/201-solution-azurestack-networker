@@ -36,7 +36,7 @@
             "value": "dps_machines"
         },
         "vnetName": {
-            "value": "dps_machine-vnet"
+            "value": "dps_machines-vnet"
         },
         "vnetSubnetName": {
             "value": "default"

@@ -489,7 +489,7 @@
         },
         "vnetName": {
             "type": "string",
-            "defaultValue": "dps_machine-vnet",
+            "defaultValue": "dps_machines-vnet",
             "metadata": {
                 "description": "The name of the existing Virtual Network that NVE/DDVE will be connected to."
             }
