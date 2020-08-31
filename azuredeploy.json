@@ -47,6 +47,14 @@
             ]
         },
 
+        "nveAutoConfig": {
+            "type": "string",
+            "allowedValues": [ "True", "False" ],
+            "defaultValue": "True",
+            "metadata": {
+                "description": "Autoconfigure NVE NVE Settings."
+            }
+        },
         "nvePasswordOrKey": {
             "type": "securestring",
             "defaultValue": "Change_Me12345_",
@@ -472,45 +480,31 @@
             }
 
         },
-        "diagnosticsStorageAccountExistingResourceGroup": {
-            "type": "string",
-            "defaultValue": "registry",
-            "metadata": {
-                "description": "The name of the Resource Group which contains the existing storage account to be used by diagnostics."
-            }
-        },
-        "diagnosticsStorageAccountName": {
-            "type": "string",
-            "defaultValue": "ckboxhxdal63isalinuxvm",
-            "metadata": {
-                "description": "Storage account to be used by diagnostics. Diagnostics supports only Standard_GRS,Standard_LRS,Standard_RAGRS storage account types."
-            }
-        },
         "vnetExistingResourceGroup": {
             "type": "string",
-            "defaultValue": "registry",
+            "defaultValue": "dps_machines",
             "metadata": {
                 "description": "The name of the Resource Group which contains the existing Virtual Network that NVE/DDVE will be connected to."
             }
         },
         "vnetName": {
             "type": "string",
-            "defaultValue": "harborVNET",
+            "defaultValue": "dps_machine-vnet",
             "metadata": {
                 "description": "The name of the existing Virtual Network that NVE/DDVE will be connected to."
             }
         },
         "vnetSubnetName": {
             "type": "string",
-            "defaultValue": "Subnet1",
+            "defaultValue": "default",
             "metadata": {
                 "description": "The name of the existing subnet that NVE/DDVE will be connected to."
             }
         }
     },
     "variables": {
-        "apiVersion": "2017-06-01",
-        "nvePassword": "changeme",
+        "diagnosticsStorageAccountName": "[concat('diag', uniquestring(resourceGroup().id))]",
+        "DiagnosticsStorageAccountType": "Standard_LRS",
         "nveExternalHostname": "node",
         "nveIPAllocationMethod": "Static",
         "nveNicName": "[concat(parameters('nveName'), '-nic-0')]",
@@ -545,9 +539,23 @@
     },
     "resources": [
         {
+            "apiVersion": "2017-10-01",
+            "type": "Microsoft.Storage/storageAccounts",
+            "name": "[toLower(variables('diagnosticsStorageAccountName'))]",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "accountType": "[variables('DiagnosticsstorageAccountType')]"
+            },
+            "sku": {
+                "name": "Standard_LRS"
+            },
+            "kind": "Storage"
+        },
+        {
             "type": "Microsoft.Compute/virtualMachines/extensions",
             "name": "[concat(parameters('nveName'),'/initvm')]",
             "apiVersion": "2017-03-30",
+            "condition": "[equals(parameters('nveAutoConfig'),'True')]",
             "location": "[resourceGroup().location]",
             "properties": {
                 "publisher": "Microsoft.Azure.Extensions",
@@ -620,11 +628,12 @@
                 "diagnosticsProfile": {
                     "bootDiagnostics": {
                         "enabled": true,
-                        "storageUri": "[reference(resourceId(parameters('diagnosticsStorageAccountExistingResourceGroup'), 'Microsoft.Storage/storageAccounts', parameters('diagnosticsStorageAccountName')), variables('apiVersion')).primaryEndpoints['blob']]"
+                        "storageUri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('diagnosticsStorageAccountName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).primaryEndpoints.blob)]"
                     }
                 }
             },
             "dependsOn": [
+                "[concat('Microsoft.Storage/storageAccounts/', variables('diagnosticsStorageAccountName'))]",
                 "[resourceId('Microsoft.Network/networkInterfaces', variables('nveNicName'))]",
                 "[concat('Microsoft.Compute/images/', variables('nveVersion'))]"
             ]
@@ -829,6 +838,7 @@
             "type": "Microsoft.Resources/deployments",
             "name": "generate-customdata",
             "apiVersion": "2015-01-01",
+            "condition": "[equals(parameters('nveAutoConfig'),'True')]",
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
