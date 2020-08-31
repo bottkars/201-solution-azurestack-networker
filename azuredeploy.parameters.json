@@ -9,7 +9,7 @@
             "value": "Change_Me12345_"
         },
         "nveImageURI": {
-            "value": "https://opsmanagerimage.blob.local.azurestack.external/images/networker/19.3/AZURE-NVE-19.3.0.16.vhd"
+            "value": "https://opsmanagerimage.blob.local.azurestack.external/images/Networkrr/19.3/AZURE-NVE-19.3.0.16.vhd"
         },
         "nveName": {
             "value": "nveazs1"
