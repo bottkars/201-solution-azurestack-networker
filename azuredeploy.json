@@ -777,6 +777,23 @@
                         }
                     },
                     {
+                        "name": "TCP_inbound_rule_7",
+                        "properties": {
+                            "protocol": "TCP",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "7543",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1170,
+                            "direction": "Inbound",
+                            "sourceAddressPrefixes": [
+                            ],
+                            "destinationAddressPrefixes": [
+                            ]
+                        }
+                    },                    
+                    {
                         "name": "TCP_outbound_rule_1",
                         "properties": {
                             "protocol": "TCP",
