@@ -612,7 +612,6 @@
                     ]
                 },
                 "osProfile": {
-                    "condition": "[equals(parameters('nveAutoConfig'),'True')]",
                     "computerName": "[parameters('nveName')]",
                     "adminUsername": "[parameters('nveUserName')]",
                     "adminPassword": "[parameters('nvePasswordOrKey')]",
