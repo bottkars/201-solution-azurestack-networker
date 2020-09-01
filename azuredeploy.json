@@ -612,12 +612,14 @@
                     ]
                 },
                 "osProfile": {
+                    "condition": "[equals(parameters('nveAutoConfig'),'True')]",
                     "computerName": "[parameters('nveName')]",
                     "adminUsername": "[parameters('nveUserName')]",
                     "adminPassword": "[parameters('nvePasswordOrKey')]",
                     "customData": "[reference('Microsoft.Resources/deployments/generate-customdata', '2015-01-01').outputs.customData.value]",
                     "linuxConfiguration": "[if(equals(parameters('authenticationType'), 'password'), json('null'), variables('linuxConfiguration'))]"
                 },
+                
                 "networkProfile": {
                     "networkInterfaces": [
                         {
@@ -838,7 +840,7 @@
             "type": "Microsoft.Resources/deployments",
             "name": "generate-customdata",
             "apiVersion": "2015-01-01",
-            "condition": "[equals(parameters('nveAutoConfig'),'True')]",
+//            "condition": "[equals(parameters('nveAutoConfig'),'True')]",
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
