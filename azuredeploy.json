@@ -887,6 +887,10 @@
         "NveUrl": {
             "type": "string",
             "value": "[concat('https://', reference(variables('nveNicName')).ipConfigurations[0].properties.privateIPAddress, '/avi')]"
+        },
+        "NvePasswd": {
+            "type": "string",
+            "value": "[reference(variables('nveNicName')).ipConfigurations[0].properties.privateIPAddress]"
         }
     }
 }
