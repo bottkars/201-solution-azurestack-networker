@@ -9,7 +9,7 @@
             "value": "Change_Me12345_"
         },
         "nveImageURI": {
-            "value": "https://opsmanagerimage.blob.local.azurestack.external/images/Networkrr/19.3/AZURE-NVE-19.3.0.16.vhd"
+            "value": "https://opsmanagerimage.blob.local.azurestack.external/images/Networker/19.4/AZURE-NVE-19.4.0.25.vhd"
         },
         "nveName": {
             "value": "nveazs1"
@@ -30,16 +30,22 @@
             "value": "nwuser"
         },
         "nveVhd": {
-            "value": "AZURE-NVE-19.3.0.16.vhd"
+            "value": "AZURE-NVE-19.4.0.25.vhd"
+        },
+        "diagnosticsStorageAccountExistingResourceGroup": {
+            "value": "registry"
+        },
+        "diagnosticsStorageAccountName": {
+            "value": "o6xnpfa6ngy3isalinuxvm"
         },
         "vnetExistingResourceGroup": {
-            "value": "dps_machines"
+            "value": "registry"
         },
         "vnetName": {
-            "value": "dps_machines-vnet"
+            "value": "harborVNET"
         },
         "vnetSubnetName": {
-            "value": "default"
+            "value": "Subnet1"
         }
     }
 }

@@ -500,12 +500,25 @@
             "metadata": {
                 "description": "The name of the existing subnet that NVE/DDVE will be connected to."
             }
-        }
+        },
+        "diagnosticsStorageAccountExistingResourceGroup": {
+            "type": "string",
+            "defaultValue": "registry",
+            "metadata": {
+                "description": "The name of the Resource Group which contains the existing storage account to be used by diagnostics."
+            }
+        },
+        "diagnosticsStorageAccountName": {
+            "type": "string",
+            "defaultValue": "ckboxhxdal63isalinuxvm",
+            "metadata": {
+                "description": "Storage account to be used by diagnostics. Diagnostics supports only Standard_GRS,Standard_LRS,Standard_RAGRS storage account types."
+            }
+        }        
     },
     "variables": {
-        "diagnosticsStorageAccountName": "[concat('diag', uniquestring(resourceGroup().id))]",
-        "DiagnosticsStorageAccountType": "Standard_LRS",
-        "nveExternalHostname": "node",
+        "apiVersion": "2017-06-01",
+        "nveExternalHostname": "nveazs1.local.cloudapp.azurestack.external",
         "nveIPAllocationMethod": "Static",
         "nveNicName": "[concat(parameters('nveName'), '-nic-0')]",
         "nveNsg": "[concat(parameters('nveName'), '-nsg')]",
@@ -538,19 +551,6 @@
         "vnetId": "[resourceId(parameters('vnetExistingResourceGroup'), 'Microsoft.Network/virtualNetworks', parameters('vnetName'))]"
     },
     "resources": [
-        {
-            "apiVersion": "2017-10-01",
-            "type": "Microsoft.Storage/storageAccounts",
-            "name": "[toLower(variables('diagnosticsStorageAccountName'))]",
-            "location": "[resourceGroup().location]",
-            "properties": {
-                "accountType": "[variables('DiagnosticsstorageAccountType')]"
-            },
-            "sku": {
-                "name": "Standard_LRS"
-            },
-            "kind": "Storage"
-        },
         {
             "type": "Microsoft.Compute/virtualMachines/extensions",
             "name": "[concat(parameters('nveName'),'/initvm')]",
@@ -629,12 +629,11 @@
                 "diagnosticsProfile": {
                     "bootDiagnostics": {
                         "enabled": true,
-                        "storageUri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('diagnosticsStorageAccountName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).primaryEndpoints.blob)]"
+                        "storageUri": "[reference(resourceId(parameters('diagnosticsStorageAccountExistingResourceGroup'), 'Microsoft.Storage/storageAccounts', parameters('diagnosticsStorageAccountName')), variables('apiVersion')).primaryEndpoints['blob']]"
                     }
                 }
             },
             "dependsOn": [
-                "[concat('Microsoft.Storage/storageAccounts/', variables('diagnosticsStorageAccountName'))]",
                 "[resourceId('Microsoft.Network/networkInterfaces', variables('nveNicName'))]",
                 "[concat('Microsoft.Compute/images/', variables('nveVersion'))]"
             ]
