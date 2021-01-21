@@ -96,7 +96,7 @@ NVE_CONFIG=$(/opt/emc-tools/bin/avi-cli --user root --password "${NVE_PASSWORD}"
     --input ddboost_user_pwd_cf=${NVE_DDBOOST_USER_PWD} \
     --input datadomain_sysadmin=${NVE_DATADOMAIN_SYSADMIN} \
     --input datadomain_sysadmin_pwd=${NVE_DATADOMAIN_SYSADMIN_PWD} \
-    --input storage_path=nveboost
+    --input storage_path=nveboost \
     ${NVE_PASSWORD}
 # else
 
