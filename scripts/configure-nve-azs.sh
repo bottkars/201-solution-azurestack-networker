@@ -48,7 +48,12 @@ NVE_COMMON_PASSWORD=$(get_setting NVE_COMMON_PASSWORD)
 NVE_TIMEZONE=$(get_setting NVE_TIMEZONE)
 NVE_EXTERNAL_FQDN=$(get_setting NVE_EXTERNAL_FQDN)
 EXTERNAL_HOSTNAME=$(get_setting EXTERNAL_HOSTNAME)
-
+NVE_ADD_DATADOMAIN_CONFIG=$(get_setting NVE_ADD_DATADOMAIN_CONFIG)
+NVE_DATADOMAIN_HOST=$(get_setting NVE_DATADOMAIN_HOST)
+NVE_DDBOOST_USER=$(get_setting NVE_DDBOOST_USER)
+NVE_DDBOOST_USER_PWD=$(get_setting NVE_DDBOOST_USER_PWD)
+NVE_DATADOMAIN_SYSADMIN=$(get_setting NVE_DATADOMAIN_SYSADMIN)
+NVE_DATADOMAIN_SYSADMIN_PWD=$(get_setting NVE_DATADOMAIN_SYSADMIN_PWD)
 
 WORKFLOW=NveConfig
 echo "waiting for Networker $WORKFLOW  to be available"
@@ -85,6 +90,13 @@ NVE_CONFIG=$(/opt/emc-tools/bin/avi-cli --user root --password "${NVE_PASSWORD}"
     --input add_datadomain_config=false \
     --input new_ddboost_user=false \
     --input snmp_string=public \
+    --input datadomain_host=${NVE_DATADOMAIN_HOST} \
+    --input ddboost_user=${NVE_DDBOOST_USER} \
+    --input ddboost_user_pwd=${NVE_DDBOOST_USER_PWD} \
+    --input ddboost_user_pwd_cf=${NVE_DDBOOST_USER_PWD} \
+    --input datadomain_sysadmin=${NVE_DATADOMAIN_SYSADMIN} \
+    --input datadomain_sysadmin_pwd=${NVE_DATADOMAIN_SYSADMIN_PWD} \
+    --input storage_path=nveboost
     ${NVE_PASSWORD}
 # else
 

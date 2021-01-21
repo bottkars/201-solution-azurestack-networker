@@ -853,7 +853,7 @@
                         "blobUri": "[parameters('nveImageURI')]",
                         "storageAccountType": "Standard_LRS",
                         "caching": "ReadWrite",
-                        "diskSizeGB": 127
+                        "diskSizeGB": 180
                     }
                 }
             }
@@ -876,7 +876,13 @@
                             "NVE_COMMON_PASSWORD": "[parameters('nveCommonPassword')]",
                             "NVE_PASSWORD": "[reference(variables('nveNicName')).ipConfigurations[0].properties.privateIPAddress]",
                             "NVE_EXTERNAL_FQDN": "[if(equals(parameters('nveNetworkInterfaceType'), 'public'), reference(variables('nvePublicIPName'),'2017-10-01').dnsSettings.fqdn,'')]",
-                            "EXTERNAL_HOSTNAME": "[parameters('nveExternalHostname')]"
+                            "EXTERNAL_HOSTNAME": "[parameters('nveExternalHostname')]",
+                            "NVE_ADD_DATADOMAIN_CONFIG": "false",
+                            "NVE_DATADOMAIN_HOST": "ddhost",
+                            "NVE_DDBOOST_USER": "ddboost",
+                            "NVE_DDBOOST_USER_PWD": "boostpwd",
+                            "NVE_DATADOMAIN_SYSADMIN": "sysadmin",
+                            "NVE_DATADOMAIN_SYSADMIN_PWD": "Change_Me12345_"
                         }
                     }
                 }
