@@ -9,11 +9,14 @@
             "value": "Change_Me12345_"
         },
         "nveImageURI": {
-            "value": "https://opsmanagerimage.blob.local.azurestack.external/images/Networker/19.4/AZURE-NVE-19.4.0.25.vhd"
+            "value": "https://opsmanagerimage.blob.local.azurestack.external/images/Networker/19.4/AZURE-NVE-19.4.0.20.vhd"
         },
         "nveName": {
             "value": "nveazs1"
         },
+        "nveExternalHostname": {
+            "value": "nveazs1.local.cloudapp.azurestack.external"
+        },            
         "nveNetworkInterfaceType": {
             "value": "Public"
         },
@@ -30,7 +33,7 @@
             "value": "nwuser"
         },
         "nveVhd": {
-            "value": "AZURE-NVE-19.4.0.25.vhd"
+            "value": "AZURE-NVE-19.4.0.20.vhd"
         },
         "diagnosticsStorageAccountExistingResourceGroup": {
             "value": "registry"

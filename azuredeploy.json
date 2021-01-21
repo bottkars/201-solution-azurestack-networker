@@ -35,6 +35,14 @@
                 "description": "Name of the NVE virtual machine"
             }
         },
+        "nveExternalHostname": {
+            "type": "string",
+            "defaultValue": "nveazs1.local.cloudapp.azurestack.external",
+            "maxLength": 64,
+            "metadata": {
+                "description": "Name of the NVE virtual machine"
+            }
+        },        
         "nveNetworkInterfaceType": {
             "type": "string",
             "defaultValue": "Public",
@@ -518,7 +526,6 @@
     },
     "variables": {
         "apiVersion": "2017-06-01",
-        "nveExternalHostname": "nveazs1.local.cloudapp.azurestack.external",
         "nveIPAllocationMethod": "Static",
         "nveNicName": "[concat(parameters('nveName'), '-nic-0')]",
         "nveNsg": "[concat(parameters('nveName'), '-nsg')]",
@@ -869,7 +876,7 @@
                             "NVE_COMMON_PASSWORD": "[parameters('nveCommonPassword')]",
                             "NVE_PASSWORD": "[reference(variables('nveNicName')).ipConfigurations[0].properties.privateIPAddress]",
                             "NVE_EXTERNAL_FQDN": "[if(equals(parameters('nveNetworkInterfaceType'), 'public'), reference(variables('nvePublicIPName'),'2017-10-01').dnsSettings.fqdn,'')]",
-                            "EXTERNAL_HOSTNAME": "[variables('nveExternalHostname')]"
+                            "EXTERNAL_HOSTNAME": "[parameters('nveExternalHostname')]"
                         }
                     }
                 }
