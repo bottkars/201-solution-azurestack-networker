@@ -66,16 +66,16 @@ az group create --name nve_from_cli --location local
 Validate
 ```azurecli-interactive
 az deployment group validate  \
---template-uri https://raw.githubusercontent.com/bottkars/201-solution-azurestack-networker/master/azuredeploy.json \
---parameters https://raw.githubusercontent.com/bottkars/201-solution-azurestack-networker/master/azuredeploy.parameters.json \
+--template-uri https://raw.githubusercontent.com/bottkars/201-solution-azurestack-networker/main/azuredeploy.json \
+--parameters https://raw.githubusercontent.com/bottkars/201-solution-azurestack-networker/main/azuredeploy.parameters.json \
 --resource-group nve_from_cli
 ```
 
 ```azurecli-interactive
 az group create --name nve_from_cli --location local
 az deployment group create  \
---template-uri https://raw.githubusercontent.com/bottkars/201-solution-azurestack-networker/master/azuredeploy.json \
---parameters https://raw.githubusercontent.com/bottkars/201-solution-azurestack-networker/master/azuredeploy.parameters.json \
+--template-uri https://raw.githubusercontent.com/bottkars/201-solution-azurestack-networker/main/azuredeploy.json \
+--parameters https://raw.githubusercontent.com/bottkars/201-solution-azurestack-networker/main/azuredeploy.parameters.json \
 --resource-group nve_from_cli
 ```
 
@@ -92,8 +92,8 @@ az deployment group validate  \
 ```azurecli-interactive
 az group create --name nve_from_cli --location local
 az deployment group create  \
---template-uri https://raw.githubusercontent.com/bottkars/201-solution-azurestack-networker/master/azuredeploy.json \
---parameters https://raw.githubusercontent.com/bottkars/201-solution-azurestack-networker/master/azuredeploy.parameters.json \
+--template-uri https://raw.githubusercontent.com/bottkars/201-solution-azurestack-networker/main/azuredeploy.json \
+--parameters https://raw.githubusercontent.com/bottkars/201-solution-azurestack-networker/main/azuredeploy.parameters.json \
 --resource-group nve_from_cli
 ```
 
@@ -114,18 +114,34 @@ delete
 az group delete --name nve_from_cli  -y
 ```
 
-## GitOps from direnv
-validate
-```bash
+## Gitops Direnv Github
+
+```azurecli-interactive
 az group create --name ${AZS_RESOURCE_GROUP} \
   --location ${AZS_LOCATION}
+```
+
+```azurecli-interactive
 az deployment group validate  \
---template-uri https://raw.githubusercontent.com/bottkars/201-solution-azurestack-powerprotect/main/azuredeploy.json \
---parameters https://raw.githubusercontent.com/bottkars/201-solution-azurestack-powerprotect/main/azuredeploy.parameters.json \
---parameters ppdmPasswordOrKey="${SSH_KEYDATA}" \
---parameters ppdmName=${AZS_HOSTNAME:?variable is empty} \
---parameters ppdmImageURI=${AZS_IMAGE_URI:?variable is empty} \
---parameters ppdmVersion=${AZS_IMAGE:?variable is empty} \
+--template-uri https://raw.githubusercontent.com/bottkars/201-solution-azurestack-networker/main/azuredeploy.json \
+--parameters https://raw.githubusercontent.com/bottkars/201-solution-azurestack-networker/main/azuredeploy.parameters.json \
+--parameters nveName=${AZS_HOSTNAME:?variable is empty} \
+--parameters nveImageURI=${AZS_IMAGE_URI:?variable is empty} \
+--parameters diagnosticsStorageAccountExistingResourceGroup=${AZS_diagnosticsStorageAccountExistingResourceGroup:?variable is empty} \
+--parameters diagnosticsStorageAccountName=${AZS_diagnosticsStorageAccountName:?variable is empty} \
+--parameters vnetName=${AZS_vnetName:?variable is empty} \
+--parameters vnetSubnetName=${AZS_vnetSubnetName:?variable is empty} \
+--resource-group ${AZS_RESOURCE_GROUP:?variable is empty}
+
+
+```
+
+```azurecli-interactive
+az deployment group create  \
+--template-uri https://raw.githubusercontent.com/bottkars/201-solution-azurestack-networker/main/azuredeploy.json \
+--parameters https://raw.githubusercontent.com/bottkars/201-solution-azurestack-networker/main/azuredeploy.parameters.json \
+--parameters nveName=${AZS_HOSTNAME:?variable is empty} \
+--parameters nveImageURI=${AZS_IMAGE_URI:?variable is empty} \
 --parameters diagnosticsStorageAccountExistingResourceGroup=${AZS_diagnosticsStorageAccountExistingResourceGroup:?variable is empty} \
 --parameters diagnosticsStorageAccountName=${AZS_diagnosticsStorageAccountName:?variable is empty} \
 --parameters vnetName=${AZS_vnetName:?variable is empty} \
@@ -133,23 +149,9 @@ az deployment group validate  \
 --resource-group ${AZS_RESOURCE_GROUP:?variable is empty}
 ```
 
-deploy
-```bash
-az group create --name ${AZS_RESOURCE_GROUP} \
-  --location ${AZS_LOCATION}
-az deployment group create  \
---template-uri https://raw.githubusercontent.com/bottkars/201-solution-azurestack-networker/main/azuredeploy.json \
---parameters https://raw.githubusercontent.com/bottkars/201-solution-azurestack-networker/main/azuredeploy.parameters.json \
---parameters ppdmPasswordOrKey="${SSH_KEYDATA}" \
---parameters ppdmName=${AZS_HOSTNAME:?variable is empty} \
---parameters ppdmImageURI=${AZS_IMAGE_URI:?variable is empty} \
---parameters ppdmVersion=${AZS_IMAGE:?variable is empty} \
---parameters diagnosticsStorageAccountExistingResourceGroup=${AZS_diagnosticsStorageAccountExistingResourceGroup:?variable is empty} \
---parameters diagnosticsStorageAccountName=${AZS_diagnosticsStorageAccountName:?variable is empty} \
---parameters vnetName=${AZS_vnetName:?variable is empty} \
---parameters vnetSubnetName=${AZS_vnetSubnetName:?variable is empty} \
---resource-gr
-
+```
+az group delete --name ${AZS_RESOURCE_GROUP}
+```
 ## Copying an Azure Image
 
 azcopy copy /Volumes/minio/dps-products/networker/19.3/AZURE-NVE-19.3.0.16.vhd https://opsmanagerimage.blob.local.azurestack.external/images/Networkrr/19.3/AZURE-NVE-19.3.0.16.vhd$SASTOKEN
